@@ -223,7 +223,6 @@
 
                                     @csrf
                                     <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                    <p>ID du produit affiché dans la modale : {{ $product->id }}</p>
 
 
                                 <div class="mb-3">

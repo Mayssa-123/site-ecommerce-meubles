@@ -14,7 +14,8 @@ class PictureController extends Controller
 
         if (Auth::check() && Auth::user()->role->name === 'Admin') {
             $pictures = Picture::paginate(10);
-        return view('pictures.index', compact('pictures'));
+            $currentUser = auth()->user();
+        return view('pictures.index', compact('pictures','currentUser'));
         } else {
             return redirect('/')->with('error', 'Accès refusé.');
         }
@@ -25,7 +26,9 @@ class PictureController extends Controller
     public function create()
     {
         if (Auth::check() && Auth::user()->role->name === 'Admin') {
-            return view('pictures.create');
+            $currentUser = auth()->user();
+
+            return view('pictures.create',compact('currentUser'));
 
         } else {
             return redirect('/')->with('error', 'Accès refusé.');
@@ -58,7 +61,8 @@ class PictureController extends Controller
     {
         if (Auth::check() && Auth::user()->role->name === 'Admin') {
             $picture = Picture::first();
-        return view('pictures.show', compact('picture'));
+            $currentUser = auth()->user();
+        return view('pictures.show', compact('picture','currentUser'));
 
         } else {
             return redirect('/')->with('error', 'Accès refusé.');
@@ -71,7 +75,9 @@ class PictureController extends Controller
     {
         if (Auth::check() && Auth::user()->role->name === 'Admin') {
             $picture = Picture::findOrFail($id);
-        return view('pictures.edit', compact('picture'));
+            $currentUser = auth()->user();
+
+        return view('pictures.edit', compact('picture','currentUser'));
 
         } else {
             return redirect('/')->with('error', 'Accès refusé.');

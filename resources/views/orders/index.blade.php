@@ -85,26 +85,33 @@
                         <div class="col-lg-5">
                             <div class="d-flex flex-column">
                                 <span>Estimated Arrival</span>
-                                <span class="text-dark fw-medium">Feb 6, 2025</span>
+                                <span class="text-dark fw-medium">
+                                    {{ \Carbon\Carbon::now()->addDays(5)->format('M d, Y') }}
+                                </span>
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="d-flex flex-column">
                                 <span>Order value</span>
-                                <span class="text-dark fw-medium">${{ $order->total_price*$order->quantity }}</span>
+                                <span class="text-dark fw-medium">
+                                    ${{ number_format($order->products->sum(function($checkoutProduct) {
+                                        return ($checkoutProduct->product->price - $checkoutProduct->product->promotion) * $checkoutProduct->quantity;
+                                    }), 2) }}
+                                </span>
                             </div>
                         </div>
-
                         <div class="col-lg-3">
                             <div class="d-flex flex-column">
                                 <a class="text-link" href="#" data-bs-toggle="offcanvas"
-                                data-bs-target="#offcanvasRight{{ $order->id }}" aria-controls="offcanvasRight">
-                                View Details
+                                    data-bs-target="#offcanvasRight{{ $order->id }}" aria-controls="offcanvasRight">
+                                    View Details
                                 </a>
                             </div>
                         </div>
                     </div>
                 </div>
+
+
             </div>
         </div>
         <!-- Exemple d'un bouton pour marquer la commande comme livrée -->
@@ -142,7 +149,7 @@
                             <div class="me-auto d-flex flex-column gap-2">
                                 <div class="d-flex flex-column gap-1">
                                     <h6 class="mb-0">{{ $checkoutProduct->product->name }}</h6>
-                                    <p class="mb-0 lh-1 text-dark fw-semibold">${{ $checkoutProduct->product->price}}</p>
+                                    <p class="mb-0 lh-1 text-dark fw-semibold">${{ $checkoutProduct->product->price-$checkoutProduct->product->promotion}}</p>
                                 </div>
                                 <small class="text-dark fw-medium">Qty: {{ $checkoutProduct->quantity }}</small>
                             </div>
@@ -169,9 +176,12 @@
                                 <li>
                                     <div class="d-flex flex-row justify-content-between align-items-center">
                                         <span>Estimated delivery date:</span>
-                                        <span class="text-dark fw-medium">Feb 8, 2025 / 10:00 - 12:00</span>
+                                        <span class="text-dark fw-medium">
+                                            {{ \Carbon\Carbon::now()->addDays(5)->format('M d, Y / H:i') }}
+                                        </span>
                                     </div>
                                 </li>
+
                             </ul>
                         </div>
                     </div>
@@ -202,9 +212,20 @@
                         <div class="card-footer border-top-0 bg-light">
                             <div class="d-flex flex-row justify-content-between align-items-center">
                                 <span>Estimated total:</span>
-                                <span class="text-dark fw-medium">$ {{ $order->total_price* $order->quantity }} </span>
+
+                                <span class="text-dark fw-medium">
+                                    $
+                                    @php
+                                        $total = 0;
+                                        foreach($order->products as $checkoutProduct) {
+                                            $total += ($checkoutProduct->product->price - $checkoutProduct->product->promotion) * $checkoutProduct->quantity;
+                                        }
+                                        echo number_format($total, 2);
+                                    @endphp
+                                </span>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>

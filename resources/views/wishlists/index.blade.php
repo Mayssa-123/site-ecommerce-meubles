@@ -7,7 +7,6 @@
             <div class="col-lg-3 col-md-4">
                 <div class="mb-4 text-center text-md-start">
                     <div class="d-lg-flex align-items-center gap-3 border p-3">
-                        <img src="{{ asset('assets/images/avatar/avatar-1.jpg') }}" alt="Avatar" class="avatar avatar-lg rounded-circle">
                         <div class="mt-2 mt-lg-0 overflow-hidden">
                             <h3 class="mb-0 fs-5">{{ $user->name }}</h3>
                             <p class="mb-0 small text-truncate">{{ $user->email }}</p>

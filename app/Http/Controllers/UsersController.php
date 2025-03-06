@@ -22,7 +22,8 @@ class UsersController extends Controller
     {
         if (Auth::check() && Auth::user()->role->name === 'Admin') {
             $users = User::paginate(10);
-            return view('users.index', compact('users'));
+            $currentUser = auth()->user();
+            return view('users.index', compact('users','currentUser'));
         } else {
             return redirect('/')->with('error', 'Accès refusé.');
         }
@@ -38,7 +39,9 @@ class UsersController extends Controller
 {
     if (Auth::check() && Auth::user()->role->name === 'Admin') {
         $roles = Role::all();
-    return view('users.create', compact('roles'));
+        $currentUser=auth()->user();
+
+    return view('users.create', compact('roles','currentUser'));
     } else {
         return redirect('/')->with('error', 'Accès refusé.');
     }
@@ -76,7 +79,9 @@ class UsersController extends Controller
     public function edit(User $user)
     {
         if (Auth::check() && Auth::user()->role->name === 'Admin') {
-            return view('users.edit', compact('user'));
+            $currentUser=auth()->user();
+
+            return view('users.edit', compact('user','currentUser'));
 
         } else {
             return redirect('/')->with('error', 'Accès refusé.');
@@ -111,7 +116,9 @@ public function editRole(User $user)
 {
     if (Auth::check() && Auth::user()->role->name === 'Admin') {
         $roles = Role::all(); // Récupère tous les rôles
-    return view('users.editRole', compact('user', 'roles'));
+        $currentUser=auth()->user();
+
+    return view('users.editRole', compact('user', 'roles','currentUser'));
 
     } else {
         return redirect('/')->with('error', 'Accès refusé.');

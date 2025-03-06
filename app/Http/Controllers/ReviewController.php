@@ -14,8 +14,8 @@ class ReviewController extends Controller
         if (Auth::check() && Auth::user()->role->name === 'Admin') {
             $reviews = Review::with('product', 'user')->paginate(10);
 
-
-        return view('reviews.index', compact('reviews'));
+            $currentUser = auth()->user();
+        return view('reviews.index', compact('reviews','currentUser'));
         } else {
             return redirect('/')->with('error', 'Accès refusé.');
         }

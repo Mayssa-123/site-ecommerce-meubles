@@ -93,7 +93,7 @@
                                             <p class="mb-2 text-dark">Quantité : {{ $item->quantity }}</p>
                                             <p class="mb-2 text-success">
                                                 @if($item->attributes->promotion > 0)
-                                                    Promotion : {{ $item->attributes->promotion }} EUR
+                                                    Promotion : {{ $item->attributes->promotion }} $
                                                 @else
                                                     Pas de promotion
                                                 @endif
@@ -104,7 +104,7 @@
                                     <!-- Prix total par produit -->
                                     <div>
                                         <span class="text-dark">
-                                            {{ (($item->price ) - ($item->attributes->promotion ?? 0))*$item->quantity }} EUR
+                                            {{ (($item->price ) - ($item->attributes->promotion ?? 0))*$item->quantity }} $
                                         </span>
                                     </div>
                                 </div>
@@ -112,7 +112,7 @@
 
                                 <!-- Sous-total, livraison, et estimation -->
                                 <div class="mb-2 border-top pt-3 mb-2">
-                                    
+
                                     <div class="d-flex align-items-center justify-content-between mb-2">
                                         <span>Shipping</span>
                                         <span>Free</span>
@@ -120,7 +120,7 @@
                                     <div class="d-flex align-items-center justify-content-between">
                                         <span>Total Saving</span>
                                         <!-- Calcul de la somme des promotions -->
-                                        <span class="text-success">{{ $cartItems->sum(fn($item) => $item->attributes->promotion ?? 0) }} EUR</span>
+                                        <span class="text-success">{{ $cartItems->sum(fn($item) => $item->attributes->promotion ?? 0) }} $</span>
                                     </div>
 
                                 </div>
@@ -133,7 +133,7 @@
                                             // Si la promotion existe et est supérieure à 0, soustraire le montant de la promotion du prix
                                             $promotion = (float)$item->attributes->promotion;
                                             return (($promotion > 0) ? $item->price - $promotion : $item->price)*$item->quantity;
-                                        })) }} EUR
+                                        })) }} $
                                     </span>
                                 </div>
 

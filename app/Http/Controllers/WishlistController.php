@@ -17,9 +17,9 @@ class WishlistController extends Controller
             return redirect('/login');
         }
 
-        $user = Auth::user();
+        $currentUser = Auth::user();
         $wishlistItems = WishlistUser::where('user_id', $user->id)->with('product')->get();
-        return view('wishlists.index', compact('user', 'wishlistItems'));
+        return view('wishlists.index', compact('currentUser', 'wishlistItems'));
     }
 
     public function destroy($id)
@@ -33,7 +33,7 @@ class WishlistController extends Controller
     public function add(Product $product)
     {
         if (!Auth::check()) {
-            return redirect('/login'); 
+            return redirect('/login');
         }
         WishlistUser::create([
             'user_id' => Auth::id(),

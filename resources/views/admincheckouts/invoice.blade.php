@@ -120,8 +120,12 @@
         @endphp
 
         <div class="total-row">
-            <p>Total: <span class="total-price">{{ number_format(sumTotal($products), 2) }} TND</span></p>
+            <p>Total: <span class="total-price">{{ number_format(sumTotal($products), 2) }} $</span></p>
         </div>
+
+
+
+
 
         <p><strong>Méthode de Paiement: </strong>{{ $payment_method }}</p>
         <p><strong>Statut: </strong>{{ $status }}</p>

@@ -15,9 +15,11 @@ class ProductController extends Controller
 {
     public function index()
 {
+
     if (Auth::check() && Auth::user()->role->name === 'Admin') {
         $products = Product::with('images', 'category')->paginate(10);
-        return view('products.index', compact('products'));
+        $currentUser = auth()->user();
+        return view('products.index', compact('products','currentUser'));
     } else {
         return redirect('/')->with('error', 'Accès refusé.');
     }
@@ -37,7 +39,8 @@ public function getProductDetails($id)
     {
         if (Auth::check() && Auth::user()->role->name === 'Admin') {
             $categories = Categorie::all();
-        return view('products.create', compact('categories'));
+            $currentUser=auth()->user();
+        return view('products.create', compact('categories','currentUser'));
         } else {
             return redirect('/')->with('error', 'Accès refusé.');
         }
@@ -121,15 +124,18 @@ public function showProduct($id)
 {
     $product = Product::find($id);
     $totalReviews = $product->reviews()->count(); // Remplace reviews() par la relation appropriée
+    $currentUser=auth()->user();
 
-    return view('products.details', compact('product', 'totalReviews'));
+    return view('products.details', compact('product', 'totalReviews','currentUser'));
 }
 
     public function show($id)
     {
         if (Auth::check() && Auth::user()->role->name === 'Admin') {
             $product = Product::with('images', 'category')->findOrFail($id);
-            return view('products.show', compact('product'));
+            $currentUser=auth()->user();
+
+            return view('products.show', compact('product','currentUser'));
         } else {
             return redirect('/')->with('error', 'Accès refusé.');
         }
@@ -139,7 +145,9 @@ public function showProduct($id)
     public function showProducts()
     {
         $products = Product::all();
-        return view('products.index', compact('products'));
+        $currentUser=auth()->user();
+
+        return view('products.index', compact('products','currentUser'));
     }
 
 
@@ -186,7 +194,9 @@ public function showProduct($id)
         if (Auth::check() && Auth::user()->role->name === 'Admin') {
             $product = Product::findOrFail($id);
             $categories = Categorie::all();
-            return view('products.edit', compact('product', 'categories'));
+            $currentUser=auth()->user();
+
+            return view('products.edit', compact('product', 'categories','currentUser'));
         } else {
             return redirect('/')->with('error', 'Accès refusé.');
         }

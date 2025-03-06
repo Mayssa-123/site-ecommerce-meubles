@@ -87,7 +87,9 @@ class CheckoutController extends Controller
 public function edit($id)
 {
     $checkout = Checkout::findOrFail($id); // Find the checkout by ID
-    return view('admincheckouts.edit', compact('checkout')); // Return the edit view with the checkout data
+    $currentUser = auth()->user();
+
+    return view('admincheckouts.edit', compact('checkout','currentUser')); // Return the edit view with the checkout data
 }
 public function destroy($id)
 {
@@ -117,9 +119,10 @@ public function index(Request $request)
     if ($request->has('status') && $request->status != '') {
         $query->where('status', $request->status);
     }
+    $currentUser = auth()->user();
 
     $checkouts = $query->orderBy('created_at', 'desc')->paginate(10);
-    return view('admincheckouts.index', compact('checkouts'));
+    return view('admincheckouts.index', compact('checkouts','currentUser'));
 }
 
     public function storecheckout(Request $request)

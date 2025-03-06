@@ -12,7 +12,8 @@ class RoleController extends Controller
     {
         if (Auth::check() && Auth::user()->role->name === 'Admin') {
             $roles = Role::paginate(10);
-            return view('roles.index', compact('roles'));
+            $currentUser = auth()->user();
+            return view('roles.index', compact('roles','currentUser'));
             } else {
                 return redirect('/')->with('error', 'Accès refusé.');
             }
@@ -22,7 +23,9 @@ class RoleController extends Controller
     public function create()
     {
         if (Auth::check() && Auth::user()->role->name === 'Admin') {
-            return view('roles.create');
+            $currentUser=auth()->user();
+
+            return view('roles.create',compact('currentUser'));
 
         } else {
             return redirect('/')->with('error', 'Accès refusé.');
@@ -56,7 +59,9 @@ class RoleController extends Controller
     {
         if (Auth::check() && Auth::user()->role->name === 'Admin') {
             $role = Role::findOrFail($id);
-            return view('roles.edit', compact('role')); // Vous devez créer une vue pour ce formulaire
+            $currentUser=auth()->user();
+
+            return view('roles.edit', compact('role','currentUser')); // Vous devez créer une vue pour ce formulaire
         } else {
             return redirect('/')->with('error', 'Accès refusé.');
         }

@@ -10,8 +10,8 @@ class CategoryController extends Controller
     public function index(){
         if (Auth::check() && Auth::user()->role->name === 'Admin') {
             $categories = Categorie::paginate(10);
-
-            return view('categories.index', compact('categories'));
+            $currentUser = auth()->user();
+            return view('categories.index', compact('categories','currentUser'));
         } else {
             return redirect('/')->with('error', 'Accès refusé.');
         }
@@ -20,7 +20,8 @@ class CategoryController extends Controller
 
     public function create(){
         if (Auth::check() && Auth::user()->role->name === 'Admin') {
-            return view('categories.create');
+            $currentUser = auth()->user();
+            return view('categories.create', compact('currentUser'));
 
         } else {
             return redirect('/')->with('error', 'Accès refusé.');
@@ -41,7 +42,8 @@ class CategoryController extends Controller
 
             if (Auth::check() && Auth::user()->role->name === 'Admin') {
                 $category = Categorie::find($id);
-                return view('categories.edit', compact('category'));
+                $currentUser = auth()->user();
+                return view('categories.edit', compact('category','currentUser'));
             } else {
                 return redirect('/')->with('error', 'Accès refusé.');
             }
